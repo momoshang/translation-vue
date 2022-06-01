@@ -4,7 +4,7 @@
 
     <el-row :gutter="10">
       <el-col :span="4" :offset="4">
-        <el-select v-model="value1" placeholder="请选择">
+        <el-select v-model="fanyi.value1" placeholder="请选择">
           <el-option
             v-for="item in options1"
             :key="item.value"
@@ -14,7 +14,7 @@
         </el-select>
       </el-col>
       <el-col :span="4" :offset="4">
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="fanyi.value" placeholder="请选择">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -27,9 +27,9 @@
         <i class="el-icon-right"></i>
       </el-col>
       <el-col :span="4" >
-        <el-select v-model="value2" placeholder="请选择">
+        <el-select v-model="fanyi.value2" placeholder="请选择">
           <el-option
-            v-for="item in options"
+            v-for="item in options2"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -42,10 +42,12 @@
     <el-row>
       <el-col :span="16" :offset="4">
         <el-input
+          v-on:change="fan"
           type="textarea"
           :rows="5"
           placeholder="请输入内容"
-          v-model="textarea">
+          v-model="fanyi.textarea"
+          >
         </el-input>
       </el-col>
 
@@ -90,7 +92,9 @@
 
 
 <script>
+const axios = require('axios');
 export default {
+
   // name: "translation",
   data() {
     return {
@@ -101,7 +105,7 @@ export default {
         value: '选项2',
         label: '谷歌翻译'
       }],
-      value1: '',
+
       options: [{
         value: '选项1',
         label: '中文'
@@ -109,12 +113,53 @@ export default {
         value: '选项2',
         label: '英文'
       }],
-      value: '',
-      value2: '',
-      textarea: '',
+      options2: [{
+        value: '选项1',
+        label: '中文'
+      }, {
+        value: '选项2',
+        label: '英文'
+      }],
+
       results:'',
-      input: ''
+      input: '',
+
+      fanyi: {
+        value1: '',
+        value: '',
+        value2: '',
+        textarea: '',
+
+      },
     }
+  },
+  methods: {
+    fan: function(){
+      console.log("123")
+      axios({
+        url: 'http://localhost:8003/tran/translation',
+        method: 'POST', //提交姿势
+        data: {
+          value1: this.fanyi.value1,
+          value: this.fanyi.value,
+          value2: this.fanyi.value2,
+          textarea: this.fanyi.textarea
+        },
+        headers:{
+          "Content-Type":"application/json"
+        }
+
+      }).then(     //成功时返回
+        res => {
+          console.log(res.date())
+        }
+
+      )
+
+    }
+
+
+
   }
 }
 </script>
