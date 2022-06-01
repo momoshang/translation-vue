@@ -137,16 +137,16 @@ export default {
     exporti(){
       console.log("33")
       // window.location.href('')
-      // this.$router.replace('http://127.0.0.1:8003/tran/exportT')
-      // this.$router.push('http://127.0.0.1:8003/tran/exportT')
-      window.open('http://127.0.0.1:8003/tran/exportT')
+      // this.$router.replace('http://103.46.128.46:15722/tran/exportT')
+      // this.$router.push('http://103.46.128.46:15722/tran/exportT')
+      window.open('http://103.46.128.46:15722/tran/exportT')
 
     },
     submit() {
       console.log("222")
 
       axios({
-        url: 'http://127.0.0.1:8003/tran/submit',
+        url: 'http://103.46.128.46:15722/tran/submit',
         method: 'POST', //提交姿势
         data: {
           engine: this.fanyi.value1,
@@ -182,7 +182,7 @@ export default {
     fan: function () {
       console.log("111")
       axios({
-        url: 'http://127.0.0.1:8003/tran/translation',
+        url: 'http://103.46.128.46:15722/tran/translation',
         method: 'POST', //提交姿势
         data: {
           value1: this.fanyi.value1,
