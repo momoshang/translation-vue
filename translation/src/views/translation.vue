@@ -76,10 +76,10 @@
 
     <el-row>
       <el-col :span="2" :offset="16">
-        <el-button type="primary" round>导出</el-button>
+        <el-button @click="exporti" type="primary" round>导出</el-button>
       </el-col>
       <el-col :span="2" :offset="0">
-        <el-button type="success" round>提交</el-button>
+        <el-button @click="submit" type="success" round>提交</el-button>
       </el-col>
 
     </el-row>
@@ -99,25 +99,25 @@ export default {
   data() {
     return {
       options1: [{
-        value: '选项1',
+        value: '百度翻译',
         label: '百度翻译'
       }, {
-        value: '选项2',
+        value: '谷歌翻译',
         label: '谷歌翻译'
       }],
 
       options: [{
-        value: '选项1',
+        value: '中文',
         label: '中文'
       }, {
-        value: '选项2',
+        value: '英文',
         label: '英文'
       }],
       options2: [{
-        value: '选项1',
+        value: '中文',
         label: '中文'
       }, {
-        value: '选项2',
+        value: '英文',
         label: '英文'
       }],
 
@@ -134,10 +134,55 @@ export default {
     }
   },
   methods: {
-    fan: function(){
-      console.log("123")
+    exporti(){
+      console.log("33")
+      // window.location.href('')
+      // this.$router.replace('http://127.0.0.1:8003/tran/exportT')
+      // this.$router.push('http://127.0.0.1:8003/tran/exportT')
+      window.open('http://127.0.0.1:8003/tran/exportT')
+
+    },
+    submit() {
+      console.log("222")
+
       axios({
-        url: 'http://localhost:8003/tran/translation',
+        url: 'http://127.0.0.1:8003/tran/submit',
+        method: 'POST', //提交姿势
+        data: {
+          engine: this.fanyi.value1,
+          original: this.fanyi.value,
+          purpose: this.fanyi.value2,
+          input: this.fanyi.textarea,
+          output: this.results,
+          score: this.input
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true"
+        }
+
+      }).then(     //成功时返回
+        res => {
+          console.log(res)
+          if (res.data===1){
+            this.$message({
+              message: '提交成功',
+              type: 'success'
+            });
+          }else {
+            this.$message.error('提交失败');
+          }
+          open2()
+        }
+      )
+
+    },
+
+    fan: function () {
+      console.log("111")
+      axios({
+        url: 'http://127.0.0.1:8003/tran/translation',
         method: 'POST', //提交姿势
         data: {
           value1: this.fanyi.value1,
@@ -145,22 +190,24 @@ export default {
           value2: this.fanyi.value2,
           textarea: this.fanyi.textarea
         },
-        headers:{
-          "Content-Type":"application/json"
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true"
         }
 
       }).then(     //成功时返回
         res => {
-          console.log(res.date())
+          console.log(res)
+          this.results = res.data.data
         }
-
       )
 
     }
 
-
-
   }
+
+
 }
 </script>
 
